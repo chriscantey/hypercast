@@ -97,6 +97,38 @@ curl -X POST http://your-server/create \
 
 Note: The `/create` endpoint requires authentication using an API key. Set your API key in the `.env` file.
 
+### Shell Function
+
+Add this function to your shell configuration (e.g., `~/.zshrc` or `~/.bashrc`):
+
+```bash
+hypercast() {
+    if [ -p /dev/stdin ]; then
+        read -r input
+    else
+        input="$1"
+    fi
+
+    curl -X POST http://your-server/create \
+        -H "Content-Type: application/json" \
+        -H "X-API-Key: your-api-key" \
+        -d "{\"input\": \"$input\"}"
+}
+```
+
+This allows you to send content to Hypercast in two ways:
+
+- Direct input: `hypercast "https://example.com/article"`
+- Piped input: `echo "https://example.com/article" | hypercast`
+
+This is particularly useful when combined with tools like [Fabric](https://github.com/danielmiessler/fabric), which may generate content that you want to listen to later:
+
+```bash
+pbpaste | fabric --pattern summarize | hypercast
+```
+
+Note: Remember to update the server URL and API key in the function to match your configuration.
+
 ### Podcast URL
 
 Get the RSS feed:
