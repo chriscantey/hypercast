@@ -1,0 +1,8 @@
+flask==3.1
+waitress==3.0.0
+python-dotenv==1.0.0
+openai==1.63.0
+pydub==0.25.1
+beautifulsoup4==4.12.3
+requests==2.31.0
+mutagen==1.47.0

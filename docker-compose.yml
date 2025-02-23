@@ -1,0 +1,14 @@
+services:
+  hypercast:
+    container_name: hypercast
+    build: .
+    ports:
+      - "${SERVER_PORT:-4973}:${SERVER_PORT:-4973}"
+    volumes:
+      - ./app/static/audio:/app/app/static/audio
+      - ./app/static/images:/app/app/static/images
+      - ./assets:/app/assets
+      - ./data:/app/data
+    env_file:
+      - .env
+    restart: unless-stopped
