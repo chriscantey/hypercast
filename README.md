@@ -169,6 +169,7 @@ The application comes with default media files that you can customize:
   - Format: PNG or JPG
 
 - **Intro Sound**: Add your custom audio to `assets/` and set `FEED_SOUND` in your `.env`
+
   - Example:
     ```bash
     # Add your sound as assets/my-intro.mp3
@@ -176,6 +177,13 @@ The application comes with default media files that you can customize:
     ```
   - Format: MP3
   - Recommended length: 2-3 seconds
+
+- **Text-to-Speech**: Customize the voice and quality of the audio generation
+  - Set `TTS_VOICE` in your `.env` to change the voice (default: onyx)
+    - Available voices: [OpenAI TTS Voice Options](https://platform.openai.com/docs/guides/text-to-speech/voice-options)
+    - Each voice has unique characteristics - visit the link above to hear samples
+  - Set `TTS_MODEL` to `tts-1-hd` for higher quality audio (default: tts-1)
+    - Note: HD model has higher API costs
 
 Default files (`app/static/images/podcast-cover.png` and `assets/intro-sound.mp3`) are included as references and fallbacks. Adding your custom files separately allows for easier updates via git pull without conflicts.
 
