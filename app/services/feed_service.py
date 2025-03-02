@@ -6,6 +6,7 @@ from pathlib import Path
 import logging
 from config.config import (
     FEED_TITLE,
+    FEED_DESCRIPTION,
     BASE_URL,
     FEED_LANGUAGE,
     FEED_IMAGE,
@@ -23,6 +24,7 @@ def generate_feed():
 
     # Add channel information
     ET.SubElement(channel, "title").text = FEED_TITLE
+    ET.SubElement(channel, "description").text = FEED_DESCRIPTION
     ET.SubElement(channel, "link").text = f"{BASE_URL}/feed"
     ET.SubElement(channel, "language").text = FEED_LANGUAGE
     ET.SubElement(channel, "itunes:image", href=f"{BASE_URL}/static/images/{FEED_IMAGE}")

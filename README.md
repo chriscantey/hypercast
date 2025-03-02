@@ -21,6 +21,7 @@ Running this service on a public server could expose your API keys, content, or 
 - Convert text or URLs to speech using OpenAI's TTS service
 - Automatic content cleanup using GPT
 - Custom intro sound effects
+- Web interface for browsing and playing episodes
 - Dynamic RSS feed generation for podcast players
 - Docker support for easy deployment
 - Persistent storage for all media files and customizations
@@ -129,12 +130,23 @@ pbpaste | fabric --pattern summarize | hypercast
 
 Note: Remember to update the server URL and API key in the function to match your configuration.
 
-### Podcast URL
-
-Get the RSS feed:
+### Web Interface
 
 ```bash
-curl http://your-server/feed
+http://your-server
+```
+
+The home page provides a simple interface to:
+
+- Browse all generated episodes
+- Play episodes directly in your browser
+- Download episodes for offline listening
+- Access the RSS feed link for podcast players
+
+### Podcast URL
+
+```bash
+http://your-server/feed
 ```
 
 Use this URL in your Podcast app.

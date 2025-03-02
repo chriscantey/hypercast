@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no"
+    />
+    <title>{{ feed_title }}</title>
+    <style>
+      :root {
+        --bg-primary: #13171f;
+        --bg-secondary: #222831;
+        --text-primary: #ffffff;
+        --text-secondary: #b3b3b3;
+        --button-primary: #28303a;
+        --button-hover: #323947;
+        --spacing: 1.5rem;
+        --radius: 8px;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        overflow-x: hidden;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Helvetica, Arial, sans-serif;
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        line-height: 1.6;
+        padding: var(--spacing);
+        padding-top: 40px;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .header {
+        display: grid;
+        grid-template-columns: 280px 1fr;
+        gap: var(--spacing);
+        margin-bottom: calc(var(--spacing) * 2);
+        align-items: start;
+      }
+
+      .feed-image {
+        width: 280px;
+        height: 280px;
+        border-radius: var(--radius);
+      }
+
+      .feed-info {
+        padding: var(--spacing) 0;
+      }
+
+      .feed-title {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: calc(var(--spacing) / 2);
+      }
+
+      .feed-description {
+        color: var(--text-secondary);
+        font-size: 1.1rem;
+        margin-bottom: var(--spacing);
+        line-height: 1.5;
+        max-width: 85%;
+      }
+
+      .subscribe-links {
+        display: flex;
+        gap: var(--spacing);
+        align-items: center;
+      }
+
+      .subscribe-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        background: var(--bg-secondary);
+        border: none;
+        border-radius: var(--radius);
+        color: var(--text-primary);
+        font-size: 0.9rem;
+        text-decoration: none;
+        transition: background-color 0.2s ease;
+      }
+
+      .subscribe-button:hover {
+        background: var(--button-primary);
+      }
+
+      .subscribe-button svg {
+        width: 20px;
+        height: 20px;
+      }
+
+      .episodes {
+        display: grid;
+        gap: var(--spacing);
+      }
+
+      .episode {
+        background: var(--bg-secondary);
+        padding: var(--spacing);
+        border-radius: var(--radius);
+        transition: transform 0.2s ease;
+      }
+
+      .episode:hover {
+        transform: translateY(-2px);
+      }
+
+      .episode-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: calc(var(--spacing) / 2);
+      }
+
+      .episode-meta {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        margin-bottom: var(--spacing);
+      }
+
+      .episode-description {
+        color: var(--text-secondary);
+        margin-bottom: var(--spacing);
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        max-width: 100%;
+      }
+
+      .episode-actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: stretch;
+        gap: calc(var(--spacing) / 2);
+        margin-top: var(--spacing);
+      }
+
+      .play-button {
+        padding: 0.75rem 1.5rem;
+        background: var(--button-primary);
+        border: none;
+        border-radius: var(--radius);
+        color: var(--text-primary);
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+      }
+
+      .play-button:hover {
+        background: var(--button-hover);
+      }
+
+      .download-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 42px;
+        height: 42px;
+        background: var(--button-primary);
+        border: none;
+        border-radius: var(--radius);
+        color: var(--text-primary);
+        font-weight: 600;
+        text-decoration: none;
+        transition: background-color 0.2s ease;
+      }
+
+      .download-link:hover {
+        background: var(--button-hover);
+      }
+
+      .download-link svg {
+        width: 20px;
+        height: 20px;
+      }
+
+      .player-container {
+        flex: 1;
+        min-width: 200px;
+        display: flex;
+        align-items: center;
+      }
+
+      @media (max-width: 600px) {
+        .player-container {
+          min-width: 150px;
+        }
+      }
+
+      audio {
+        width: 100%;
+        border-radius: calc(var(--radius) / 2);
+      }
+
+      audio::-webkit-media-controls-panel {
+        background: var(--bg-primary);
+      }
+
+      audio::-webkit-media-controls-current-time-display,
+      audio::-webkit-media-controls-time-remaining-display {
+        color: var(--text-primary);
+      }
+
+      @media (max-width: 600px) {
+        :root {
+          --spacing: 1rem;
+        }
+
+        body {
+          padding: var(--spacing);
+        }
+
+        .header {
+          grid-template-columns: 1fr;
+        }
+
+        .feed-image {
+          width: 240px;
+          height: 240px;
+          margin: 0 auto;
+        }
+
+        .feed-info {
+          padding: var(--spacing) 0;
+          text-align: center;
+        }
+
+        .subscribe-links {
+          justify-content: center;
+        }
+
+        .feed-title {
+          font-size: 1.75rem;
+        }
+
+        .feed-description {
+          font-size: 1rem;
+          margin-left: auto;
+          margin-right: auto;
+          max-width: 90%;
+        }
+
+          .episode-description {
+            white-space: normal;
+            word-break: break-word;
+            hyphens: auto;
+          }
+
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      document.addEventListener("click", function (e) {
+        if (e.target.matches(".play-button")) {
+          const button = e.target;
+          const audioUrl = button.dataset.audio;
+          const container = button.parentElement;
+
+          // Remove any existing player
+          const existingPlayer = container.querySelector(".player-container");
+          if (existingPlayer) {
+            existingPlayer.remove();
+          }
+
+          // Create new player before the download link
+          const playerContainer = document.createElement("div");
+          playerContainer.className = "player-container";
+          playerContainer.innerHTML = `
+            <audio controls preload="none">
+              <source src="${audioUrl}" type="audio/mpeg">
+              Your browser does not support the audio element.
+            </audio>
+          `;
+
+          // Insert before the download link
+          const downloadLink = container.querySelector(".download-link");
+          container.insertBefore(playerContainer, downloadLink);
+
+          // Start playing the audio
+          const audio = playerContainer.querySelector("audio");
+          audio.play();
+          button.style.display = "none";
+        }
+      });
+    </script>
+
+    <div class="container">
+      <header class="header">
+        <img
+          src="{{ url_for('static', filename='images/' + feed_image) }}"
+          alt="{{ feed_title }}"
+          class="feed-image"
+        />
+        <div class="feed-info">
+          <h1 class="feed-title">{{ feed_title }}</h1>
+          <p class="feed-description">{{ feed_description }}</p>
+          <div class="subscribe-links">
+            <a href="/feed" class="subscribe-button">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M6.18 15.64a2.18 2.18 0 1 1 2.18-2.18 2.18 2.18 0 0 1-2.18 2.18zM4 4a16 16 0 0 1 16 16h-4A12 12 0 0 0 4 8zm0 7a9 9 0 0 1 9 9H9a5 5 0 0 0-5-5z"
+                />
+              </svg>
+              RSS Feed
+            </a>
+          </div>
+        </div>
+      </header>
+
+      <main class="episodes">
+        {% for episode in episodes %}
+        <article class="episode">
+          <h2 class="episode-title">{{ episode[1] }}</h2>
+          <div class="episode-meta">
+            {{ episode[3] }} • {{ episode[4] if episode[4] else '00:00' }}
+          </div>
+          <p class="episode-description">{{ episode[2]|safe }}</p>
+          <div class="episode-actions">
+            <button
+              class="play-button"
+              data-audio="{{ url_for('static', filename='audio/' + episode[0]) }}"
+            >
+              Play Episode
+            </button>
+            <a
+              href="{{ url_for('static', filename='audio/' + episode[0]) }}"
+              download
+              class="download-link"
+              title="Download Episode"
+            >
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" />
+              </svg>
+            </a>
+          </div>
+        </article>
+        {% endfor %}
+      </main>
+    </div>
+  </body>
+</html>
+    </div>
+  </body>
+</html>

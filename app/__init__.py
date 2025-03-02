@@ -1,6 +1,7 @@
 from flask import Flask
 from .routes.create import create as create_blueprint
 from .routes.feed import feed as feed_blueprint
+from .routes.index import index as index_blueprint
 from config.config import MAX_REQUEST_SIZE
 import logging
 
@@ -29,6 +30,7 @@ def create_app():
             logger.propagate = False
 
     # Register blueprints
+    app.register_blueprint(index_blueprint, url_prefix='/')
     app.register_blueprint(create_blueprint, url_prefix='/create')
     app.register_blueprint(feed_blueprint, url_prefix='/feed')
 

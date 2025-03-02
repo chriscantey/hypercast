@@ -23,6 +23,7 @@ if not API_TOKEN:
 # Feed configuration
 BASE_URL= os.getenv('BASE_URL', 'http://localhost:5000')
 FEED_TITLE = os.getenv('FEED_TITLE', 'Hypercast')
+FEED_DESCRIPTION = os.getenv('FEED_DESCRIPTION', 'A personal podcast generator for turning articles into audio for offline listening.')
 FEED_IMAGE = os.getenv('FEED_IMAGE', 'podcast-cover.png')
 FEED_SOUND = os.getenv('FEED_SOUND', 'intro-sound.mp3')
 FEED_LANGUAGE = 'en-us'
