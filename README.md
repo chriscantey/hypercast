@@ -2,6 +2,8 @@
 
 A simple, personal podcast generator for turning articles into audio for offline listening.
 
+![Hypercast Home](assets/hypercast-home.png)
+
 ## About
 
 Hypercast was created to solve a simple problem: wanting to listen to interesting articles while walking or doing chores. It runs as a local service in my homelab, automatically converting articles to audio episodes that I can listen to later through any podcast app.
@@ -41,13 +43,13 @@ Running this service on a public server could expose your API keys, content, or 
    # Copy the example environment file
    cp .env.example .env
 
-   # Generate an API token for authentication
+   # Generate an API key for authentication
    openssl rand -hex 32
    ```
 
    Edit .env and configure:
 
-   - Add the generated token as API_TOKEN
+   - Add the generated key as API_KEY
    - Set your OpenAI API key as OPENAI_API_KEY
    - Adjust other settings as needed (see Configuration section below)
 
@@ -84,6 +86,28 @@ Running this service on a public server could expose your API keys, content, or 
 ### How I Use It
 
 I use this tool to queue up interesting articles throughout the day, which are then converted to audio episodes. Later, while walking or doing chores, I can listen to these articles through my podcast app. The service runs in my homelab and is accessible when I'm away via VPN. My podcast app (Apple Podcasts) downloads the episodes automatically while I'm home, making them available offline when I'm out.
+
+### Web Interface
+
+```bash
+http://your-server
+```
+
+The home page provides a simple interface to:
+
+- Browse all generated episodes
+- Play episodes directly in your browser
+- Download episodes for offline listening
+- Access the RSS feed link for podcast players
+- Create new episodes by pasting URLs or text content
+
+### Podcast URL
+
+```bash
+http://your-server/feed
+```
+
+Use this URL in your Podcast app.
 
 ### Command Line
 
@@ -130,34 +154,11 @@ pbpaste | fabric --pattern summarize | hypercast
 
 Note: Remember to update the server URL and API key in the function to match your configuration.
 
-### Web Interface
-
-```bash
-http://your-server
-```
-
-The home page provides a simple interface to:
-
-- Browse all generated episodes
-- Play episodes directly in your browser
-- Download episodes for offline listening
-- Access the RSS feed link for podcast players
-
-### Podcast URL
-
-```bash
-http://your-server/feed
-```
-
-Use this URL in your Podcast app.
-
 ### Apple Shortcuts Integration
 
 You can easily send articles to Hypercast from your iPhone, iPad, or Mac using Apple Shortcuts. The shortcut makes the same API call as the curl example above, making it convenient to send articles while browsing.
 
-Here's an example shortcut implementation:
-
-![Apple Shortcut Example](assets/shortcut-example.png)
+[Here's an example shortcut implementation](assets/shortcut-example.png)
 
 This provides a quick way to send articles to your personal podcast feed while browsing on your Apple devices. You can customize the shortcut to:
 
@@ -201,7 +202,7 @@ Default files (`app/static/images/podcast-cover.png` and `assets/intro-sound.mp3
 
 ## Credits
 
-- Intro sound: "Simple Notification" by Universfield (https://pixabay.com/sound-effects/simple-notification-152054/)
+- Intro sound: ["Simple Notification" by Universfield](https://pixabay.com/sound-effects/simple-notification-152054/)
 - Podcast cover: AI generated image
 
 ## Contributing

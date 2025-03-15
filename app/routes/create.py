@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, render_template
 from ..services.background_tasks import process_episode_async
 from ..services.content_service import validate_input
 from ..middleware.auth import require_api_key
@@ -7,6 +7,11 @@ import logging
 logger = logging.getLogger(__name__)
 
 create = Blueprint('create', __name__)
+
+@create.route('', methods=['GET'])
+def create_form():
+    """Render the create episode form."""
+    return render_template('create.html')
 
 @create.route('', methods=['POST'])
 @require_api_key

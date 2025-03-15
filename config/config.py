@@ -16,9 +16,9 @@ SERVER_PORT = int(os.getenv('SERVER_PORT', '4973'))
 FLASK_DEBUG = os.getenv('FLASK_DEBUG', '').lower() == 'true'
 
 # API Security
-API_TOKEN = os.getenv('API_TOKEN')
-if not API_TOKEN:
-    raise ValueError("API_TOKEN must be set in environment")
+API_KEY = os.getenv('API_KEY') or os.getenv('API_TOKEN')
+if not API_KEY:
+    raise ValueError("API_KEY must be set in environment")
 
 # Feed configuration
 BASE_URL= os.getenv('BASE_URL', 'http://localhost:5000')

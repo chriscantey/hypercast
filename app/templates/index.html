@@ -80,7 +80,7 @@
 
       .subscribe-links {
         display: flex;
-        gap: var(--spacing);
+        gap: calc(var(--spacing) / 2);
         align-items: center;
       }
 
@@ -319,6 +319,12 @@
                 />
               </svg>
               RSS Feed
+            </a>
+            <a href="/create" class="subscribe-button">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+              </svg>
+              Create Episode
             </a>
           </div>
         </div>

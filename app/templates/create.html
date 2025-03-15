@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no"
+    />
+    <title>Create Episode - Hypercast</title>
+    <style>
+      :root {
+        --bg-primary: #13171f;
+        --bg-secondary: #222831;
+        --text-primary: #ffffff;
+        --text-secondary: #b3b3b3;
+        --button-primary: #28303a;
+        --button-hover: #323947;
+        --spacing: 1.5rem;
+        --radius: 8px;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        overflow-x: hidden;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Helvetica, Arial, sans-serif;
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        line-height: 1.6;
+        padding: var(--spacing);
+        padding-top: 40px;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .header {
+        margin-bottom: calc(var(--spacing) * 2);
+      }
+
+      .header-title {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: calc(var(--spacing) / 2);
+      }
+
+      .header-description {
+        color: var(--text-secondary);
+        font-size: 1.1rem;
+        margin-bottom: var(--spacing);
+        line-height: 1.5;
+        max-width: 85%;
+      }
+
+      .form-container {
+        background: var(--bg-secondary);
+        padding: var(--spacing);
+        border-radius: var(--radius);
+      }
+
+      .form-group {
+        margin-bottom: var(--spacing);
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: calc(var(--spacing) / 2);
+        color: var(--text-primary);
+        font-weight: 500;
+      }
+
+      .form-group input[type="text"],
+      .form-group input[type="password"],
+      .form-group textarea {
+        width: 100%;
+        padding: 0.75rem;
+        background: var(--bg-primary);
+        border: none;
+        border-radius: var(--radius);
+        color: var(--text-primary);
+        font-size: 1rem;
+        font-family: inherit;
+      }
+
+      .form-group textarea {
+        min-height: 100px;
+        resize: vertical;
+      }
+
+      .checkbox-group {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: calc(var(--spacing) / 2);
+      }
+
+      .checkbox-group label {
+        margin-bottom: 0;
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+      }
+
+      .submit-button {
+        padding: 0.75rem 1.5rem;
+        background: var(--button-primary);
+        border: none;
+        border-radius: var(--radius);
+        color: var(--text-primary);
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+      }
+
+      .submit-button:hover {
+        background: var(--button-hover);
+      }
+
+      .submit-button:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+      }
+
+      .status {
+        margin-top: var(--spacing);
+        padding: var(--spacing);
+        border-radius: var(--radius);
+        display: none;
+      }
+
+      .status.error {
+        background: rgba(220, 38, 38, 0.1);
+        color: #ef4444;
+        display: block;
+      }
+
+      .status.success {
+        background: rgba(34, 197, 94, 0.1);
+        color: #22c55e;
+        display: block;
+      }
+
+      .back-link {
+        display: inline-block;
+        margin-top: var(--spacing);
+        color: var(--text-secondary);
+        text-decoration: none;
+        transition: color 0.2s ease;
+      }
+
+      .back-link:hover {
+        color: var(--text-primary);
+      }
+
+      @media (max-width: 600px) {
+        :root {
+          --spacing: 1rem;
+        }
+
+        body {
+          padding: var(--spacing);
+        }
+
+        .header-title {
+          font-size: 1.75rem;
+        }
+
+        .header-description {
+          font-size: 1rem;
+          max-width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <h1 class="header-title">Create New Episode</h1>
+        <p class="header-description">
+          Enter a URL or paste text content to create a new episode.
+        </p>
+      </header>
+
+      <form id="createForm" class="form-container">
+        <div class="form-group">
+          <label for="input">URL or Text Content</label>
+          <textarea
+            id="input"
+            name="input"
+            placeholder="Enter a URL or paste your content here"
+            required
+          ></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="apiKey">API Key</label>
+          <input
+            type="password"
+            id="apiKey"
+            name="apiKey"
+            placeholder="Enter your API key"
+            required
+          />
+          <div class="checkbox-group">
+            <input type="checkbox" id="rememberKey" name="rememberKey" />
+            <label for="rememberKey">Remember API key for future use</label>
+          </div>
+        </div>
+
+        <button type="submit" class="submit-button">Create Episode</button>
+        <div id="status" class="status"></div>
+      </form>
+
+      <a href="/" class="back-link">← Back to Episodes</a>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("createForm");
+        const apiKeyInput = document.getElementById("apiKey");
+        const rememberKeyCheckbox = document.getElementById("rememberKey");
+        const statusDiv = document.getElementById("status");
+        const submitButton = form.querySelector('button[type="submit"]');
+
+        // Load saved API key if it exists
+        const savedApiKey = localStorage.getItem("hypercastApiKey");
+        if (savedApiKey) {
+          apiKeyInput.value = savedApiKey;
+          rememberKeyCheckbox.checked = true;
+        }
+
+        form.addEventListener("submit", async function (e) {
+          e.preventDefault();
+          submitButton.disabled = true;
+          statusDiv.className = "status";
+          statusDiv.textContent = "Processing...";
+
+          const input = document.getElementById("input").value;
+          const apiKey = apiKeyInput.value;
+
+          // Save or remove API key based on checkbox
+          if (rememberKeyCheckbox.checked) {
+            localStorage.setItem("hypercastApiKey", apiKey);
+          } else {
+            localStorage.removeItem("hypercastApiKey");
+          }
+
+          try {
+            const response = await fetch("/create", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "X-API-Key": apiKey,
+              },
+              body: JSON.stringify({ input }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+              statusDiv.className = "status success";
+              statusDiv.innerHTML = `
+                ${data.message}<br><br>
+                Your episode will appear in the <a href="/" style="color: inherit;">feed</a> once processing is complete.
+              `;
+              // Only clear the input field, preserve API key and checkbox
+              document.getElementById("input").value = "";
+            } else {
+              statusDiv.className = "status error";
+              statusDiv.textContent =
+                data.error || "An error occurred while creating the episode.";
+            }
+          } catch (error) {
+            statusDiv.className = "status error";
+            statusDiv.textContent = "Network error. Please try again.";
+          }
+
+          submitButton.disabled = false;
+        });
+      });
+    </script>
+  </body>
+</html>
